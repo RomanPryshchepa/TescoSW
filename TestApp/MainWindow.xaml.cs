@@ -51,22 +51,19 @@ namespace TestApp
                         return;
                     }
 
-                    foreach (Car car in carList.Cars)
-                    {
-                        if (car.SaleDate.DayOfWeek == DayOfWeek.Saturday || car.SaleDate.DayOfWeek == DayOfWeek.Sunday)
-                        {
-                            if (soldCars.ContainsKey(car.ModelName)) 
-                            {
-                                soldCars[car.ModelName].Price += car.Price;
-                                soldCars[car.ModelName].PriceWithDph += (1 + car.Dph / 100) * car.Price;
-                            }
-                            else
-                            {
-                                soldCars.Add(car.ModelName, new SoldCar(car.ModelName, car.Price, (1 + car.Dph / 100) * car.Price));
-                            }
-                        }
-                    }
-                    dataGrid.ItemsSource = soldCars.Values;
+                    List<SoldCar> SoldCars = (from car in carList.Cars
+                                               where car.SaleDate.DayOfWeek == DayOfWeek.Saturday || car.SaleDate.DayOfWeek == DayOfWeek.Sunday
+                                               select car)
+                                               .GroupBy(car => car.ModelName)
+                                               .Select(sc => new SoldCar
+                                               {
+                                                   ModelName = sc.First().ModelName,
+                                                   Price = sc.Sum(car => car.Price),
+                                                   PriceWithDph = sc.Sum(car => (1 + car.Dph / 100) * car.Price)
+                                               })
+                                               .ToList();
+
+                    dataGrid.ItemsSource = SoldCars;
                 }
             }
         }

@@ -10,6 +10,6 @@
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
             <Button Name="btnOpenFile" Click="btnOpenFile_Click">Open file</Button>
         </WrapPanel>
-        <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Width="310" Height="120" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="100" />
+        <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Width="310" Height="120" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False"  ColumnWidth="100" />
     </DockPanel>
 </Window>
